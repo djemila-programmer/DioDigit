@@ -72,7 +72,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(64),
       child: Container(
-        color: AppTheme.surface.withOpacity(0.8),
+        color: AppTheme.surface.withValues(alpha: 0.8),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -157,7 +157,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: AppTheme.primaryContainer.withOpacity(0.1),
+              color: AppTheme.primaryContainer.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(9999),
             ),
             child: Row(
@@ -189,7 +189,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: AppTheme.primaryContainer.withOpacity(0.3),
+        color: AppTheme.primaryContainer.withValues(alpha: 0.3),
       ),
       child: Stack(
         children: [
@@ -197,7 +197,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
             child: Icon(
               Icons.videocam,
               size: 80,
-              color: AppTheme.primary.withOpacity(0.3),
+              color: AppTheme.primary.withValues(alpha: 0.3),
             ),
           ),
           Positioned(
@@ -206,9 +206,9 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.4),
+                color: Colors.black.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(9999),
-                border: Border.all(color: Colors.white.withOpacity(0.2)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -253,7 +253,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
                   'Active since 04:30 AM',
                   style: TextStyle(
                     fontSize: 11,
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha: 0.8),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -293,9 +293,9 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -413,7 +413,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+            border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,7 +421,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: item.color.withOpacity(0.1),
+                  color: item.color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(item.icon, size: 18, color: item.color),
@@ -454,7 +454,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                           decoration: BoxDecoration(
-                            color: item.color.withOpacity(0.1),
+                            color: item.color.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -521,7 +521,7 @@ class _LiveMonitoringState extends State<LiveMonitoring> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: (sensor['color'] as Color).withOpacity(0.1),
+                    color: (sensor['color'] as Color).withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(sensor['icon'] as IconData,

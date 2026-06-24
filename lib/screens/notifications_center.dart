@@ -189,10 +189,10 @@ class _NotificationTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: notification.unread ? _color.withOpacity(0.04) : Colors.white,
+        color: notification.unread ? _color.withValues(alpha: 0.04) : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: notification.unread ? _color.withOpacity(0.2) : AppTheme.outlineVariant.withOpacity(0.2),
+          color: notification.unread ? _color.withValues(alpha: 0.2) : AppTheme.outlineVariant.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -201,7 +201,7 @@ class _NotificationTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: _color.withOpacity(0.1),
+              color: _color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(notification.icon, size: 20, color: _color),

@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  String _selectedRole = 'user';
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  AppTheme.primary.withOpacity(0.4),
+                  AppTheme.primary.withValues(alpha: 0.4),
                   AppTheme.background,
                 ],
               ),
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Smart Biodigester Monitoring — Burkina Faso',
                       style: TextStyle(
                         fontSize: 16,
-                        color: AppTheme.onSurface.withOpacity(0.9),
+                        color: AppTheme.onSurface.withValues(alpha: 0.9),
                       ),
                     ),
                     const SizedBox(height: AppTheme.sectionMargin),
@@ -82,16 +83,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       padding: const EdgeInsets.all(32),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
                           ),
                         ],
-                        border: Border.all(color: Colors.white.withOpacity(0.2)),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.2),
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,6 +143,34 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           const SizedBox(height: 12),
 
+                          // Role selector
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: DropdownButtonFormField<String>(
+                              value: _selectedRole,
+                              decoration: const InputDecoration(
+                                labelText: 'Login as',
+                                prefixIcon: Icon(
+                                  Icons.admin_panel_settings_outlined,
+                                ),
+                              ),
+                              items: const [
+                                DropdownMenuItem(
+                                  value: 'user',
+                                  child: Text('USER'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'admin',
+                                  child: Text('ADMIN'),
+                                ),
+                              ],
+                              onChanged: (v) {
+                                if (v == null) return;
+                                setState(() => _selectedRole = v);
+                              },
+                            ),
+                          ),
+
                           // Forgot Password
                           Align(
                             alignment: Alignment.centerRight,
@@ -165,7 +196,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: Text(
                                     auth.error!,
-                                    style: const TextStyle(color: AppTheme.error, fontSize: 13),
+                                    style: const TextStyle(
+                                      color: AppTheme.error,
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 );
                               }
@@ -179,33 +213,55 @@ class _LoginScreenState extends State<LoginScreen> {
                               return SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                  onPressed: auth.isLoading ? null : () async {
-                                    final success = await auth.signIn(
-                                      _emailController.text.trim(),
-                                      _passwordController.text,
-                                    );
-                                    if (success && ctx.mounted) {
-                                      final role = auth.user?.role ?? 'user';
-                                      if (role == 'admin') {
-                                        Navigator.pushReplacementNamed(ctx, AppRoutes.adminDashboard);
-                                      } else {
-                                        Navigator.pushReplacementNamed(ctx, AppRoutes.mainDashboard);
-                                      }
-                                    }
-                                  },
+                                  onPressed: auth.isLoading
+                                      ? null
+                                      : () async {
+                                          final success = await auth.signIn(
+                                            _emailController.text.trim(),
+                                            _passwordController.text,
+                                            expectedRole: _selectedRole,
+                                          );
+
+                                          if (success && ctx.mounted) {
+                                            final role =
+                                                auth.user?.role ?? 'user';
+                                            if (role == 'admin') {
+                                              Navigator.pushReplacementNamed(
+                                                ctx,
+                                                AppRoutes.adminDashboard,
+                                              );
+                                            } else {
+                                              Navigator.pushReplacementNamed(
+                                                ctx,
+                                                AppRoutes.mainDashboard,
+                                              );
+                                            }
+                                          }
+                                        },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
                                   ),
                                   child: auth.isLoading
                                       ? const SizedBox(
-                                          height: 20, width: 20,
-                                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                                          height: 20,
+                                          width: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.white,
+                                          ),
+                                        )
                                       : Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             const Text('Sign In'),
                                             const SizedBox(width: 8),
-                                            const Icon(Icons.arrow_forward, size: 18),
+                                            const Icon(
+                                              Icons.arrow_forward,
+                                              size: 18,
+                                            ),
                                           ],
                                         ),
                                 ),
@@ -221,8 +277,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Divider(color: AppTheme.outlineVariant),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
                                 child: Text(
                                   'or continue with',
                                   style: TextStyle(
@@ -246,12 +303,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               Expanded(
                                 child: OutlinedButton.icon(
                                   onPressed: () {},
-                                  icon: const Icon(Icons.g_mobiledata,
-                                      size: 20),
+                                  icon: const Icon(
+                                    Icons.g_mobiledata,
+                                    size: 20,
+                                  ),
                                   label: const Text('Google'),
                                   style: OutlinedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
+                                      vertical: 12,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -259,12 +319,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               Expanded(
                                 child: OutlinedButton.icon(
                                   onPressed: () {},
-                                  icon: const Icon(Icons.facebook,
-                                      size: 20, color: Color(0xFF1877F2)),
+                                  icon: const Icon(
+                                    Icons.facebook,
+                                    size: 20,
+                                    color: Color(0xFF1877F2),
+                                  ),
                                   label: const Text('Facebook'),
                                   style: OutlinedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
+                                      vertical: 12,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -318,7 +382,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       '© 2024 BioSmart Africa • Plateau Central, Burkina Faso',
                       style: TextStyle(
                         fontSize: 11,
-                        color: AppTheme.onSurface.withOpacity(0.5),
+                        color: AppTheme.onSurface.withValues(alpha: 0.5),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -339,7 +403,7 @@ class _LoginScreenState extends State<LoginScreen> {
         text,
         style: TextStyle(
           fontSize: 11,
-          color: AppTheme.onSurface.withOpacity(0.7),
+          color: AppTheme.onSurface.withValues(alpha: 0.7),
         ),
       ),
     );

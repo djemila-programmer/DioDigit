@@ -12,14 +12,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  bool _obscurePassword = true;
+  final bool _obscurePassword = true;
   bool _agreeTerms = false;
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _farmNameController = TextEditingController();
-  String _biodigesterType = 'Small-scale (Home use)';
+  final String _biodigesterType = 'Small-scale (Home use)';
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    AppTheme.primary.withOpacity(0.8),
-                    Colors.black.withOpacity(0.8),
+                    AppTheme.primary.withValues(alpha: 0.8),
+                    Colors.black.withValues(alpha: 0.8),
                   ],
                 ),
               ),
@@ -82,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           'Join the smart biodigester network',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                       ],
@@ -137,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 32),
 
             // Facility Information Section
-            Divider(color: AppTheme.outlineVariant.withOpacity(0.3)),
+            Divider(color: AppTheme.outlineVariant.withValues(alpha: 0.3)),
             const SizedBox(height: 16),
             _buildSectionHeader(Icons.agriculture, 'Facility Information'),
             const SizedBox(height: 16),

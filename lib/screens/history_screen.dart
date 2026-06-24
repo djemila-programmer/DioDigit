@@ -146,14 +146,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, size: 18, color: color),
@@ -203,7 +203,7 @@ class _BentoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +267,7 @@ class _LineChartPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final fillPaint = Paint()
-      ..color = color.withOpacity(0.1)
+      ..color = color.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
 
     final data = [0.3, 0.5, 0.4, 0.7, 0.6, 0.8, 0.75];
@@ -323,7 +323,7 @@ class _BarChartPainter extends CustomPainter {
     for (int i = 0; i < data.length; i++) {
       final x = i * (size.width / data.length) + 2;
       final barHeight = data[i] * size.height;
-      paint.color = i == data.length - 1 ? color : color.withOpacity(0.3);
+      paint.color = i == data.length - 1 ? color : color.withValues(alpha: 0.3);
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromLTWH(x, size.height - barHeight, barWidth, barHeight),

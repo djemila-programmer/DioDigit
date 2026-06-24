@@ -16,7 +16,7 @@ class ReportsScreen extends StatefulWidget {
 }
 
 class _ReportsScreenState extends State<ReportsScreen> {
-  String _selectedPeriod = 'weekly';
+  final String _selectedPeriod = 'weekly';
   bool _isGenerating = false;
 
   Future<void> _generatePdf() async {
@@ -96,7 +96,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 children: [
                   const Text('Biogas Production Report', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
                   const SizedBox(height: 4),
-                  Text('Weekly Summary · Jan 15 - Jan 21', style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.8))),
+                  Text('Weekly Summary · Jan 15 - Jan 21', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.8))),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -120,7 +120,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: CustomPaint(
                 size: const Size(double.infinity, 160),
@@ -242,7 +242,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
       children: [
         Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: color)),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 11, color: color.withOpacity(0.8))),
+        Text(label, style: TextStyle(fontSize: 11, color: color.withValues(alpha: 0.8))),
       ],
     );
   }
@@ -253,7 +253,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,7 +275,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               const SizedBox(width: 6),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
                 child: Text(change, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: color)),
               ),
             ],
@@ -292,14 +292,14 @@ class _ReportsScreenState extends State<ReportsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
             child: Icon(icon, size: 20, color: color),
           ),
           const SizedBox(width: 12),
@@ -326,7 +326,7 @@ class _ProductionChartPainter extends CustomPainter {
 
     // Grid lines
     final gridPaint = Paint()
-      ..color = AppTheme.outlineVariant.withOpacity(0.3)
+      ..color = AppTheme.outlineVariant.withValues(alpha: 0.3)
       ..strokeWidth = 1;
     for (int i = 0; i <= 4; i++) {
       final y = (i / 4) * (size.height - 20);
@@ -344,7 +344,7 @@ class _ProductionChartPainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [AppTheme.primary.withOpacity(0.2), AppTheme.primary.withOpacity(0)],
+        colors: [AppTheme.primary.withValues(alpha: 0.2), AppTheme.primary.withValues(alpha: 0)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height - 20))
       ..style = PaintingStyle.fill;
 

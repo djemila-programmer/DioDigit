@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../theme/app_theme.dart';
-import '../models/alert_model.dart';
 import '../widgets/app_header.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../services/providers.dart';
+import '../services/alert_service.dart';
 
 class AlertsScreen extends StatefulWidget {
   const AlertsScreen({super.key});
@@ -14,6 +15,8 @@ class AlertsScreen extends StatefulWidget {
 }
 
 class _AlertsScreenState extends State<AlertsScreen> {
+  String _filter = 'all'; // all, critical, warning, info
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +27,14 @@ class _AlertsScreenState extends State<AlertsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final alertProvider = context.watch<AlertProvider>();
+    final counts = alertProvider.counts;
+
+    final allActive = alertProvider.alerts.where((a) => !a.resolved).toList();
+    final filtered = _filter == 'all'
+        ? allActive
+        : allActive.where((a) => a.severity == _filter).toList();
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: const AppHeader(title: 'Alert Management'),
@@ -49,64 +60,128 @@ class _AlertsScreenState extends State<AlertsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(9999),
                     ),
                     child: const Text(
                       'IMMEDIATE ACTION REQUIRED',
-                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1),
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 1,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text(
-                    '2 Critical Issues',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Colors.white),
+                  Text(
+                    '${counts['critical'] ?? 0} Critical Issues',
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '7 active alerts detected in the last 24 hours',
-                    style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.8)),
+                    '${allActive.length} active alerts detected in the last 24 hours',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withValues(alpha: 0.8),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      _statPill('2 Critical', Icons.error),
+                      _statPill(
+                        '${counts['warning'] ?? 0} Warnings',
+                        Icons.warning_amber,
+                      ),
                       const SizedBox(width: 8),
-                      _statPill('3 Warnings', Icons.warning_amber),
-                      const SizedBox(width: 8),
-                      _statPill('2 Info', Icons.info_outline),
+                      _statPill(
+                        '${counts['info'] ?? 0} Info',
+                        Icons.info_outline,
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 24),
+
             // Filter chips
             Row(
               children: [
-                _filterChip('All (7)', true),
+                _filterChip(
+                  'All (${allActive.length})',
+                  _filter == 'all',
+                  () => setState(() => _filter = 'all'),
+                ),
                 const SizedBox(width: 8),
-                _filterChip('Critical (2)', false),
+                _filterChip(
+                  'Critical (${counts['critical'] ?? 0})',
+                  _filter == 'critical',
+                  () => setState(() => _filter = 'critical'),
+                ),
                 const SizedBox(width: 8),
-                _filterChip('Warning (3)', false),
+                _filterChip(
+                  'Warning (${counts['warning'] ?? 0})',
+                  _filter == 'warning',
+                  () => setState(() => _filter = 'warning'),
+                ),
                 const SizedBox(width: 8),
-                _filterChip('Info (2)', false),
+                _filterChip(
+                  'Info (${counts['info'] ?? 0})',
+                  _filter == 'info',
+                  () => setState(() => _filter = 'info'),
+                ),
               ],
             ),
+
             const SizedBox(height: 20),
             Text(
               'Active Alerts',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppTheme.onSurface),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.onSurface,
+              ),
             ),
             const SizedBox(height: 12),
-            ...AlertModel.mockAlerts.map((alert) => _AlertCard(alert: alert)),
+
+            if (alertProvider.isLoading)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            else if (filtered.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 24),
+                child: Text(
+                  'No active alerts for this filter.',
+                  style: TextStyle(color: AppTheme.onSurfaceVariant),
+                ),
+              )
+            else
+              ...filtered.map((a) => _AlertCard(alert: a)),
+
             const SizedBox(height: 24),
+
             // Location map placeholder
             Text(
               'Alert Locations',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppTheme.onSurface),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.onSurface,
+              ),
             ),
             const SizedBox(height: 12),
             Container(
@@ -115,7 +190,9 @@ class _AlertsScreenState extends State<AlertsScreen> {
               decoration: BoxDecoration(
                 color: AppTheme.surfaceContainerHigh,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.3)),
+                border: Border.all(
+                  color: AppTheme.outlineVariant.withValues(alpha: 0.3),
+                ),
               ),
               child: Stack(
                 children: [
@@ -123,13 +200,22 @@ class _AlertsScreenState extends State<AlertsScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.map_outlined, size: 48, color: AppTheme.outline.withOpacity(0.5)),
+                        Icon(
+                          Icons.map_outlined,
+                          size: 48,
+                          color: AppTheme.outline.withValues(alpha: 0.5),
+                        ),
                         const SizedBox(height: 8),
-                        Text('Farm Map View', style: TextStyle(fontSize: 14, color: AppTheme.outline)),
+                        Text(
+                          'Farm Map View',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.outline,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  // Map markers
                   Positioned(
                     left: 60,
                     top: 40,
@@ -158,7 +244,7 @@ class _AlertsScreenState extends State<AlertsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(9999),
       ),
       child: Row(
@@ -166,17 +252,35 @@ class _AlertsScreenState extends State<AlertsScreen> {
         children: [
           Icon(icon, size: 14, color: Colors.white),
           const SizedBox(width: 4),
-          Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _filterChip(String label, bool selected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  Widget _filterChip(
+  String label,
+  bool selected,
+  VoidCallback onTap,
+) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
       decoration: BoxDecoration(
-        color: selected ? AppTheme.primary : AppTheme.surfaceContainerHighest,
+        color: selected
+            ? AppTheme.primary
+            : AppTheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(9999),
       ),
       child: Text(
@@ -184,11 +288,14 @@ class _AlertsScreenState extends State<AlertsScreen> {
         style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w500,
-          color: selected ? AppTheme.onPrimary : AppTheme.onSurfaceVariant,
+          color: selected
+              ? AppTheme.onPrimary
+              : AppTheme.onSurfaceVariant,
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _mapMarker(Color color, String label) {
     return Column(
@@ -199,19 +306,28 @@ class _AlertsScreenState extends State<AlertsScreen> {
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 8)],
+            boxShadow: [
+              BoxShadow(color: color.withValues(alpha: 0.3), blurRadius: 8),
+            ],
           ),
           child: const Icon(Icons.warning, color: Colors.white, size: 16),
         ),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: color)),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 9,
+            fontWeight: FontWeight.w600,
+            color: color,
+          ),
+        ),
       ],
     );
   }
 }
 
 class _AlertCard extends StatelessWidget {
-  final AlertModel alert;
+  final SmartAlert alert;
   const _AlertCard({required this.alert});
 
   @override
@@ -222,12 +338,10 @@ class _AlertCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border(
-          left: BorderSide(color: alert.severityColor, width: 4),
-        ),
+        border: Border(left: BorderSide(color: alert.severityColor, width: 4)),
         boxShadow: [
           BoxShadow(
-            color: alert.severityColor.withOpacity(0.05),
+            color: alert.severityColor.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -241,7 +355,7 @@ class _AlertCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: alert.severityContainerColor,
+                  color: alert.severityColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(alert.icon, color: alert.severityColor, size: 20),
@@ -253,12 +367,19 @@ class _AlertCard extends StatelessWidget {
                   children: [
                     Text(
                       alert.title,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: AppTheme.onSurface),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.onSurface,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '${alert.timeAgo} · ${alert.sensorId}',
-                      style: const TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),
@@ -266,12 +387,17 @@ class _AlertCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: alert.severityContainerColor,
+                  color: alert.severityColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(9999),
                 ),
                 child: Text(
                   alert.severity.toUpperCase(),
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: alert.severityColor, letterSpacing: 0.5),
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: alert.severityColor,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
             ],
@@ -279,21 +405,41 @@ class _AlertCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             alert.description,
-            style: const TextStyle(fontSize: 13, color: AppTheme.onSurfaceVariant, height: 1.5),
+            style: const TextStyle(
+              fontSize: 13,
+              color: AppTheme.onSurfaceVariant,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Icon(Icons.location_on_outlined, size: 14, color: AppTheme.onSurfaceVariant),
+              Icon(
+                Icons.location_on_outlined,
+                size: 14,
+                color: AppTheme.onSurfaceVariant,
+              ),
               const SizedBox(width: 4),
-              Text(alert.location, style: const TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant)),
+              Text(
+                alert.location,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppTheme.onSurfaceVariant,
+                ),
+              ),
               const Spacer(),
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   foregroundColor: alert.severityColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 child: const Text('Investigate'),
               ),

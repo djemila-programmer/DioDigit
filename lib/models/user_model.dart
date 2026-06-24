@@ -63,6 +63,7 @@ class UserModel {
     String? biodigesterType,
     double? biodigesterCapacity,
     String? location,
+    String? profileImageUrl,
   }) => UserModel(
     id: id,
     fullName: fullName ?? this.fullName,
@@ -70,7 +71,7 @@ class UserModel {
     phone: phone ?? this.phone,
     farmName: farmName ?? this.farmName,
     role: role ?? this.role,
-    profileImageUrl: profileImageUrl,
+    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
     biodigesterType: biodigesterType ?? this.biodigesterType,
     biodigesterCapacity: biodigesterCapacity ?? this.biodigesterCapacity,
     location: location ?? this.location,

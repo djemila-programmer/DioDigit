@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'screens/splash_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/login_screen.dart';
@@ -16,6 +17,8 @@ import 'screens/user_profile.dart';
 import 'screens/settings_screen.dart';
 import 'screens/admin_dashboard.dart';
 import 'screens/threshold_management.dart';
+
+import 'widgets/auth_guard.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -37,22 +40,24 @@ class AppRoutes {
   static const String thresholdManagement = '/threshold-management';
 
   static Map<String, WidgetBuilder> get routes => {
-        splash: (context) => const SplashScreen(),
-        onboarding: (context) => const OnboardingScreen(),
-        login: (context) => const LoginScreen(),
-        register: (context) => const RegisterScreen(),
-        mainDashboard: (context) => const MainDashboard(),
-        liveMonitoring: (context) => const LiveMonitoring(),
-        sensorManagement: (context) => const SensorManagement(),
-        alerts: (context) => const AlertsScreen(),
-        history: (context) => const HistoryScreen(),
-        reports: (context) => const ReportsScreen(),
-        anomalyDetection: (context) => const AnomalyDetection(),
-        notifications: (context) => const NotificationsCenter(),
-        farmManagement: (context) => const FarmManagement(),
-        userProfile: (context) => const UserProfile(),
-        settings: (context) => const SettingsScreen(),
-        adminDashboard: (context) => const AdminDashboard(),
-        thresholdManagement: (context) => const ThresholdManagement(),
-      };
+    splash: (context) => const SplashScreen(),
+    onboarding: (context) => const OnboardingScreen(),
+    login: (context) => const LoginScreen(),
+    register: (context) => const RegisterScreen(),
+    mainDashboard: (context) => const AuthGuard(child: MainDashboard()),
+    liveMonitoring: (context) => const AuthGuard(child: LiveMonitoring()),
+    sensorManagement: (context) => const AuthGuard(child: SensorManagement()),
+    alerts: (context) => const AuthGuard(child: AlertsScreen()),
+    history: (context) => const AuthGuard(child: HistoryScreen()),
+    reports: (context) => const AuthGuard(child: ReportsScreen()),
+    anomalyDetection: (context) => const AuthGuard(child: AnomalyDetection()),
+    notifications: (context) => const AuthGuard(child: NotificationsCenter()),
+    farmManagement: (context) => const AuthGuard(child: FarmManagement()),
+    userProfile: (context) => const AuthGuard(child: UserProfile()),
+    settings: (context) => const AuthGuard(child: SettingsScreen()),
+    adminDashboard: (context) =>
+        const AuthGuard(role: 'admin', child: AdminDashboard()),
+    thresholdManagement: (context) =>
+        const AuthGuard(child: ThresholdManagement()),
+  };
 }

@@ -45,7 +45,7 @@ class UserProfile extends StatelessWidget {
                   const SizedBox(height: 8),
                   CircleAvatar(
                     radius: 48,
-                    backgroundColor: Colors.white.withOpacity(0.2),
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
                     child: const Icon(Icons.person, color: Colors.white, size: 48),
                   ),
                   const SizedBox(height: 16),
@@ -56,12 +56,12 @@ class UserProfile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     user.role,
-                    style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.8)),
+                    style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8)),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     user.farmName,
-                    style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.7)),
+                    style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.7)),
                   ),
                 ],
               ),
@@ -130,7 +130,7 @@ class UserProfile extends StatelessWidget {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppTheme.surface,
-          border: Border(top: BorderSide(color: AppTheme.outlineVariant.withOpacity(0.2))),
+          border: Border(top: BorderSide(color: AppTheme.outlineVariant.withValues(alpha: 0.2))),
         ),
         child: SafeArea(
           child: Padding(
@@ -161,7 +161,7 @@ class UserProfile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Column(children: children),
     );
@@ -200,7 +200,7 @@ class UserProfile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+          border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
         ),
         child: Column(
           children: [
@@ -221,7 +221,7 @@ class UserProfile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Column(
         children: [
@@ -266,7 +266,7 @@ class UserProfile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.05),
+          color: color.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -292,13 +292,13 @@ class UserProfile extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+            border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
           ),
           child: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                 child: Icon(icon, size: 20, color: color),
               ),
               const SizedBox(width: 12),
@@ -317,7 +317,7 @@ class UserProfile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         decoration: selected
-            ? BoxDecoration(color: AppTheme.primaryContainer.withOpacity(0.1), borderRadius: BorderRadius.circular(9999))
+            ? BoxDecoration(color: AppTheme.primaryContainer.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(9999))
             : null,
         child: Column(
           mainAxisSize: MainAxisSize.min,

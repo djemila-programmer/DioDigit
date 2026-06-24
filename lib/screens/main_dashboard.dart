@@ -91,7 +91,7 @@ class _MainDashboardState extends State<MainDashboard> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(64),
       child: Container(
-        color: AppTheme.surface.withOpacity(0.8),
+        color: AppTheme.surface.withValues(alpha: 0.8),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -165,9 +165,9 @@ class _MainDashboardState extends State<MainDashboard> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha: 0.7),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withOpacity(0.3)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
           ),
           child: Row(
             children: [
@@ -309,7 +309,7 @@ class _MainDashboardState extends State<MainDashboard> {
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.5)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

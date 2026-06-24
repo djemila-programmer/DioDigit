@@ -197,10 +197,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     height: illusSize,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      color: page.imageColor.withOpacity(0.1),
+                      color: page.imageColor.withValues(alpha: 0.1),
                       boxShadow: [
                         BoxShadow(
-                          color: page.imageColor.withOpacity(0.1),
+                          color: page.imageColor.withValues(alpha: 0.1),
                           blurRadius: 50,
                           offset: const Offset(0, 20),
                         ),
@@ -221,7 +221,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(9999),
                             ),
                             child: Row(

@@ -20,7 +20,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.surface.withOpacity(0.8),
+      color: AppTheme.surface.withValues(alpha: 0.8),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(

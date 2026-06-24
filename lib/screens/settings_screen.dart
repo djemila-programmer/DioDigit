@@ -21,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        backgroundColor: AppTheme.surface.withOpacity(0.8),
+        backgroundColor: AppTheme.surface.withValues(alpha: 0.8),
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -46,13 +46,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
                   CircleAvatar(
                     radius: 32,
-                    backgroundColor: AppTheme.primaryContainer.withOpacity(0.1),
+                    backgroundColor: AppTheme.primaryContainer.withValues(alpha: 0.1),
                     child: const Icon(Icons.person, color: AppTheme.primary, size: 32),
                   ),
                   const SizedBox(width: 16),
@@ -89,14 +89,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppTheme.tertiary.withOpacity(0.1),
+                      color: AppTheme.tertiary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(Icons.dark_mode, size: 20, color: AppTheme.tertiary),
@@ -154,14 +154,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+          border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.1),
+                color: AppTheme.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(icon, size: 20, color: AppTheme.primary),
@@ -190,14 +190,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppTheme.secondary.withOpacity(0.1),
+              color: AppTheme.secondary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(Icons.language, size: 20, color: AppTheme.secondary),

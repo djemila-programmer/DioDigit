@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import '../main.dart';
 import '../models/user_model.dart';
 
@@ -31,31 +33,27 @@ class AuthService {
   }
 
   /// Sign in with email and password.
+  /// expectedRole must be either "admin" or "user".
   Future<UserModel?> signIn({
     required String email,
     required String password,
+    required String expectedRole,
   }) async {
-    if (_authInstance == null) {
-      // Demo mode — role based on email
-      final isAdmin = email.toLowerCase().contains('admin');
-      return UserModel(
-        id: 'demo-user',
-        fullName: isAdmin ? 'Djemila Bonkoungou' : 'Amadou Ouédraogo',
-        email: email,
-        phone: '+226 70 00 00 00',
-        farmName: isAdmin ? 'BioSmart Admin' : 'Ferme BioSmart',
-        role: isAdmin ? 'admin' : 'user',
-        profileImageUrl: '',
-        location: 'Plateau Central, Burkina Faso',
-        createdAt: DateTime.now(),
-      );
+    if (_authInstance == null || _firestoreInstance == null) {
+      throw AuthException('Firebase non configuré.');
     }
     try {
       final credential = await _authInstance!.signInWithEmailAndPassword(
-        email: email, password: password,
+        email: email,
+        password: password,
       );
       if (credential.user != null) {
-        return await _fetchUserProfile(credential.user!.uid);
+        final profile = await _fetchUserProfile(credential.user!.uid);
+        if (profile == null) return null;
+        if (profile.role != expectedRole) {
+          throw AuthException('Rôle incorrect pour ce compte.');
+        }
+        return profile;
       }
       return null;
     } on FirebaseAuthException catch (e) {
@@ -67,37 +65,44 @@ class AuthService {
 
   /// Register a new user with email and password.
   Future<UserModel?> signUp({
-    required String email, required String password,
-    required String fullName, required String phone,
-    required String farmName, String? biodigesterType,
-    double? biodigesterCapacity, String? location,
+    required String email,
+    required String password,
+    required String fullName,
+    required String phone,
+    required String farmName,
+    String? biodigesterType,
+    double? biodigesterCapacity,
+    String? location,
+    String role = 'user',
   }) async {
-    if (_authInstance == null) {
-      return UserModel(
-        id: 'demo-user', fullName: fullName, email: email,
-        phone: phone, farmName: farmName, role: 'user',
-        profileImageUrl: '', biodigesterType: biodigesterType,
-        biodigesterCapacity: biodigesterCapacity,
-        location: location ?? 'Plateau Central, Burkina Faso',
-        createdAt: DateTime.now(),
-      );
+    if (_authInstance == null || _firestoreInstance == null) {
+      throw AuthException('Firebase non configuré.');
     }
     try {
       final credential = await _authInstance!.createUserWithEmailAndPassword(
-        email: email, password: password,
+        email: email,
+        password: password,
       );
       final user = credential.user;
       if (user == null) throw AuthException('Échec de création du compte.');
       await user.updateDisplayName(fullName);
       final profile = UserModel(
-        id: user.uid, fullName: fullName, email: email,
-        phone: phone, farmName: farmName, role: 'user',
-        profileImageUrl: '', biodigesterType: biodigesterType,
+        id: user.uid,
+        fullName: fullName,
+        email: email,
+        phone: phone,
+        farmName: farmName,
+        role: 'user',
+        profileImageUrl: '',
+        biodigesterType: biodigesterType,
         biodigesterCapacity: biodigesterCapacity,
         location: location ?? 'Plateau Central, Burkina Faso',
         createdAt: DateTime.now(),
       );
-      await _firestoreInstance?.collection('users').doc(user.uid).set(profile.toJson());
+      await _firestoreInstance
+          ?.collection('users')
+          .doc(user.uid)
+          .set(profile.toJson());
       return profile;
     } on FirebaseAuthException catch (e) {
       throw AuthException(_mapAuthError(e.code));
@@ -107,7 +112,9 @@ class AuthService {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    if (_authInstance == null) return;
+    if (_authInstance == null || _firestoreInstance == null) {
+      throw AuthException('Firebase non configuré.');
+    }
     try {
       await _authInstance!.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
@@ -130,13 +137,8 @@ class AuthService {
   }
 
   Future<UserModel?> getCurrentUserProfile() async {
-    if (_authInstance == null) {
-      return UserModel(
-        id: 'demo-user', fullName: 'Amadou Ouédraogo', email: 'demo@biosmart.bf',
-        phone: '+226 70 00 00 00', farmName: 'Ferme BioSmart',
-        role: 'admin', profileImageUrl: '',
-        location: 'Plateau Central, Burkina Faso', createdAt: DateTime.now(),
-      );
+    if (_authInstance == null || _firestoreInstance == null) {
+      throw AuthException('Firebase non configuré.');
     }
     final user = _authInstance!.currentUser;
     if (user == null) return null;
@@ -148,6 +150,50 @@ class AuthService {
     final user = _authInstance!.currentUser;
     if (user == null) throw AuthException('Non connecté.');
     await _firestoreInstance?.collection('users').doc(user.uid).update(updates);
+  }
+
+  /// Change password for the current user.
+  Future<void> changePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
+    if (_authInstance == null || _firestoreInstance == null) {
+      throw AuthException('Firebase non configuré.');
+    }
+    final user = _authInstance!.currentUser;
+    if (user == null) throw AuthException('Non connecté.');
+    try {
+      // Re-authenticate to confirm identity
+      final credential = EmailAuthProvider.credential(
+        email: user.email ?? '',
+        password: currentPassword,
+      );
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(_mapAuthError(e.code));
+    }
+  }
+
+  /// Upload avatar image to Firebase Storage and return download URL.
+  Future<String?> uploadAvatar(String filePath) async {
+    if (_authInstance == null) return null;
+    final user = _authInstance!.currentUser;
+    if (user == null) throw AuthException('Non connecté.');
+    try {
+      final ref = FirebaseStorage.instance.ref().child(
+        'avatars/${user.uid}.jpg',
+      );
+      await ref.putFile(File(filePath));
+      final url = await ref.getDownloadURL();
+      // Update user profile
+      await _firestoreInstance?.collection('users').doc(user.uid).update({
+        'profileImageUrl': url,
+      });
+      return url;
+    } catch (e) {
+      throw AuthException('Erreur upload avatar: ${e.toString()}');
+    }
   }
 
   /// Map Firebase error codes to French messages.

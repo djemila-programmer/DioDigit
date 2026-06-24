@@ -160,7 +160,7 @@ class AppTheme {
         textTheme: textTheme,
         scaffoldBackgroundColor: background,
         appBarTheme: AppBarTheme(
-          backgroundColor: surface.withOpacity(0.8),
+          backgroundColor: surface.withValues(alpha: 0.8),
           elevation: 0,
           centerTitle: false,
           titleTextStyle: GoogleFonts.inter(

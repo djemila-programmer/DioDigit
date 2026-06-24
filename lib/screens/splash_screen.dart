@@ -80,21 +80,21 @@ class _SplashScreenState extends State<SplashScreen>
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Colors.white.withOpacity(0.5),
+                                      color: Colors.white.withValues(alpha: 0.5),
                                       width: 4,
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: AppTheme.primaryContainer.withOpacity(0.15),
+                                        color: AppTheme.primaryContainer.withValues(alpha: 0.15),
                                         blurRadius: 40,
                                         offset: const Offset(0, 12),
                                       ),
                                     ],
-                                    color: Colors.white.withOpacity(0.2),
+                                    color: Colors.white.withValues(alpha: 0.2),
                                   ),
                                   child: ClipOval(
                                     child: Container(
-                                      color: AppTheme.primaryContainer.withOpacity(0.1),
+                                      color: AppTheme.primaryContainer.withValues(alpha: 0.1),
                                       child: Icon(Icons.eco, size: iconSize, color: AppTheme.primary),
                                     ),
                                   ),
@@ -222,9 +222,9 @@ class _SplashScreenState extends State<SplashScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

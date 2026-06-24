@@ -66,7 +66,7 @@ class PdfService {
 
           // ─── Production Summary ─────────────────────────────────────
           pw.Header(level: 1, text: '2. Production de Biogaz'),
-          pw.Table.fromTextArray(
+          pw.TableHelper.fromTextArray(
             headers: ['Métrique', 'Valeur', 'Unité'],
             data: [
               ['Volume produit', production.volume.toStringAsFixed(1), 'm³'],
@@ -80,7 +80,7 @@ class PdfService {
 
           // ─── Sensor Summary ─────────────────────────────────────────
           pw.Header(level: 1, text: '3. Analyse des Capteurs'),
-          pw.Table.fromTextArray(
+          pw.TableHelper.fromTextArray(
             headers: ['Capteur', 'Valeur', 'Statut', 'Message'],
             data: anomaly.sensorResults.map((r) => [
               '${r.sensorName} (${r.sensorId})',
@@ -109,7 +109,7 @@ class PdfService {
 
           // ─── Livestock ──────────────────────────────────────────────
           pw.Header(level: 1, text: '6. Bétail'),
-          pw.Table.fromTextArray(
+          pw.TableHelper.fromTextArray(
             headers: ['Type', 'Quantité'],
             data: [
               ['Vaches', farm.cows.toString()],
@@ -123,7 +123,7 @@ class PdfService {
           // ─── History Data Table (last 20 readings) ──────────────────
           if (historyData.isNotEmpty) ...[
             pw.Header(level: 1, text: '7. Historique des Relevés'),
-            pw.Table.fromTextArray(
+            pw.TableHelper.fromTextArray(
               headers: ['Date/Heure', 'Temp (°C)', 'Pression (bar)', 'CH₄ (ppm)', 'Lisier (%)'],
               data: historyData.take(20).map((h) => [
                 DateFormat('dd/MM HH:mm').format(h.timestamp),

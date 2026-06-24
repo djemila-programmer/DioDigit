@@ -57,7 +57,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(9999),
                               ),
                               child: const Text('AI-POWERED ANALYSIS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1)),
@@ -82,7 +82,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
                               child: CircularProgressIndicator(
                                 value: 0.94,
                                 strokeWidth: 10,
-                                backgroundColor: Colors.white.withOpacity(0.2),
+                                backgroundColor: Colors.white.withValues(alpha: 0.2),
                                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
                                 strokeCap: StrokeCap.round,
                               ),
@@ -190,7 +190,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: CustomPaint(
                 size: const Size(double.infinity, 150),
@@ -231,7 +231,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,7 +242,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(icon, size: 16, color: color),
@@ -287,7 +287,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border(left: BorderSide(color: color, width: 4)),
-        boxShadow: [BoxShadow(color: color.withOpacity(0.05), blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: color.withValues(alpha: 0.05), blurRadius: 12, offset: const Offset(0, 4))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -296,7 +296,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
                 child: Icon(icon, color: color, size: 20),
               ),
               const SizedBox(width: 12),
@@ -347,7 +347,7 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
             children: tags.map((tag) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.08),
+                color: color.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(tag, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: color)),
@@ -365,14 +365,14 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
             child: Icon(icon, size: 20, color: color),
           ),
           const SizedBox(width: 12),
@@ -395,10 +395,10 @@ class _AnomalyDetectionState extends State<AnomalyDetection> {
 class _PressureBarChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final normalPaint = Paint()..color = AppTheme.primary.withOpacity(0.3);
+    final normalPaint = Paint()..color = AppTheme.primary.withValues(alpha: 0.3);
     final anomalyPaint = Paint()..color = AppTheme.error;
     final thresholdPaint = Paint()
-      ..color = AppTheme.error.withOpacity(0.5)
+      ..color = AppTheme.error.withValues(alpha: 0.5)
       ..strokeWidth = 1.5;
 
     final data = [0.5, 0.55, 0.6, 0.58, 0.85, 0.9, 0.65];

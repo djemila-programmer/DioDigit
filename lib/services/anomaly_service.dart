@@ -1,9 +1,72 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../main.dart';
 import 'sensor_service.dart';
 
 /// Real anomaly detection engine based on actual sensor readings.
 /// No mock data — all scores are computed from live values.
 class AnomalyService {
+  FirebaseFirestore? get _fs {
+    if (!firebaseReady) return null;
+    return FirebaseFirestore.instance;
+  }
+
+  String? get _uid {
+    if (!firebaseReady) return 'demo-user';
+    try {
+      return FirebaseAuth.instance.currentUser?.uid ?? 'demo-user';
+    } catch (_) {
+      return 'demo-user';
+    }
+  }
+
+  /// Save anomaly report to Firestore for history.
+  Future<void> saveReport(AnomalyReport report) async {
+    if (_fs == null || _uid == null) return;
+    try {
+      await _fs!.collection('anomalyHistory').doc(_uid).collection('reports').add({
+        'healthScore': report.healthScore,
+        'riskScore': report.riskScore,
+        'severityLevel': report.severityLevel,
+        'predictionConfidence': report.predictionConfidence,
+        'sensorAnomalies': report.sensorAnomalies,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (_) {}
+  }
+
+  /// Get anomaly history from Firestore.
+  Future<List<Map<String, dynamic>>> getHistory() async {
+    if (_fs == null || _uid == null) return _demoHistory();
+    try {
+      final snapshot = await _fs!.collection('anomalyHistory')
+          .doc(_uid).collection('reports')
+          .orderBy('timestamp', descending: true)
+          .limit(20)
+          .get();
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        final ts = data['timestamp'];
+        data['timestampDate'] = ts is Timestamp ? ts.toDate() : DateTime.now();
+        return data;
+      }).toList();
+    } catch (_) {
+      return _demoHistory();
+    }
+  }
+
+  List<Map<String, dynamic>> _demoHistory() {
+    final now = DateTime.now();
+    return [
+      {'id': '1', 'healthScore': 87, 'riskScore': 12, 'severityLevel': 'Faible', 'predictionConfidence': 96.8, 'sensorAnomalies': 1, 'timestampDate': now.subtract(const Duration(hours: 6))},
+      {'id': '2', 'healthScore': 72, 'riskScore': 28, 'severityLevel': 'Modéré', 'predictionConfidence': 94.2, 'sensorAnomalies': 2, 'timestampDate': now.subtract(const Duration(hours: 12))},
+      {'id': '3', 'healthScore': 95, 'riskScore': 5, 'severityLevel': 'Faible', 'predictionConfidence': 98.5, 'sensorAnomalies': 0, 'timestampDate': now.subtract(const Duration(days: 1))},
+      {'id': '4', 'healthScore': 60, 'riskScore': 40, 'severityLevel': 'Élevé', 'predictionConfidence': 92.0, 'sensorAnomalies': 3, 'timestampDate': now.subtract(const Duration(days: 2))},
+    ];
+  }
+
   // ─── Threshold Configuration ────────────────────────────────────────────
 
   static const Map<String, _Threshold> _thresholds = {

@@ -39,13 +39,13 @@ class FarmManagement extends StatelessWidget {
                         children: [
                           const Text('Ferme BioDigit Plateau Central', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
                           const SizedBox(height: 4),
-                          Text('Plateau Central, Burkina Faso · Opérationnel', style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.8))),
+                          Text('Plateau Central, Burkina Faso · Opérationnel', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.8))),
                         ],
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryFixed.withOpacity(0.3),
+                          color: AppTheme.primaryFixed.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(9999),
                         ),
                         child: const Text('ACTIVE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primaryFixed)),
@@ -92,7 +92,7 @@ class FarmManagement extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                      border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
                     ),
                     child: Column(
                       children: [
@@ -156,16 +156,16 @@ class FarmManagement extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppTheme.surfaceContainerHigh,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.satellite_alt, size: 40, color: AppTheme.outline.withOpacity(0.4)),
+                    Icon(Icons.satellite_alt, size: 40, color: AppTheme.outline.withValues(alpha: 0.4)),
                     const SizedBox(height: 8),
                     Text('Satellite View', style: TextStyle(fontSize: 14, color: AppTheme.outline)),
-                    Text('Tap to expand', style: TextStyle(fontSize: 12, color: AppTheme.outline.withOpacity(0.6))),
+                    Text('Tap to expand', style: TextStyle(fontSize: 12, color: AppTheme.outline.withValues(alpha: 0.6))),
                   ],
                 ),
               ),
@@ -194,7 +194,7 @@ class FarmManagement extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
@@ -256,7 +256,7 @@ class FarmManagement extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+                border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,10 +293,10 @@ class FarmManagement extends StatelessWidget {
   Widget _heroStat(String value, String label, IconData icon) {
     return Column(
       children: [
-        Icon(icon, color: Colors.white.withOpacity(0.8), size: 20),
+        Icon(icon, color: Colors.white.withValues(alpha: 0.8), size: 20),
         const SizedBox(height: 4),
         Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
-        Text(label, style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(0.7))),
+        Text(label, style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.7))),
       ],
     );
   }
@@ -307,7 +307,7 @@ class FarmManagement extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +316,7 @@ class FarmManagement extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
                 child: Icon(icon, size: 20, color: color),
               ),
               const Spacer(),
@@ -341,13 +341,13 @@ class FarmManagement extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
             child: Icon(icon, size: 18, color: color),
           ),
           const SizedBox(width: 10),
@@ -370,7 +370,7 @@ class FarmManagement extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.08),
+          color: color.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(

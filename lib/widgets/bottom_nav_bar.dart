@@ -22,13 +22,13 @@ class BottomNavBar extends StatelessWidget {
         color: AppTheme.surface,
         border: Border(
           top: BorderSide(
-            color: AppTheme.outlineVariant.withOpacity(0.2),
+            color: AppTheme.outlineVariant.withValues(alpha: 0.2),
             width: 1,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryContainer.withOpacity(0.05),
+            color: AppTheme.primaryContainer.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, -4),
           ),
@@ -62,7 +62,7 @@ class BottomNavBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         decoration: isSelected
             ? BoxDecoration(
-                color: AppTheme.primaryContainer.withOpacity(0.1),
+                color: AppTheme.primaryContainer.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(9999),
               )
             : null,

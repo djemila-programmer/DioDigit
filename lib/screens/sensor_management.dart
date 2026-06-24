@@ -28,9 +28,9 @@ class SensorManagement extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _summaryItem('4', 'Active Sensors', AppTheme.onPrimary),
-                  Container(width: 1, height: 32, color: AppTheme.onPrimary.withOpacity(0.3)),
+                  Container(width: 1, height: 32, color: AppTheme.onPrimary.withValues(alpha: 0.3)),
                   _summaryItem('2', 'Need Attention', AppTheme.secondaryContainer),
-                  Container(width: 1, height: 32, color: AppTheme.onPrimary.withOpacity(0.3)),
+                  Container(width: 1, height: 32, color: AppTheme.onPrimary.withValues(alpha: 0.3)),
                   _summaryItem('98%', 'Avg Uptime', AppTheme.primaryFixed),
                 ],
               ),
@@ -57,7 +57,7 @@ class SensorManagement extends StatelessWidget {
       children: [
         Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: color)),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 11, color: color.withOpacity(0.8), letterSpacing: 0.3)),
+        Text(label, style: TextStyle(fontSize: 11, color: color.withValues(alpha: 0.8), letterSpacing: 0.3)),
       ],
     );
   }
@@ -75,7 +75,7 @@ class _SensorCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.3)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +85,7 @@ class _SensorCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: sensor.iconColor.withOpacity(0.1),
+                  color: sensor.iconColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(sensor.icon, color: sensor.iconColor, size: 24),
@@ -220,7 +220,7 @@ class _SensorCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

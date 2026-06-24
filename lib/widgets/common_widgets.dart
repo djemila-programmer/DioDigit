@@ -121,9 +121,9 @@ class MetricCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,12 +246,12 @@ class ESP32StatusCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.primary.withOpacity(0.05),
-            AppTheme.primaryContainer.withOpacity(0.08),
+            AppTheme.primary.withValues(alpha: 0.05),
+            AppTheme.primaryContainer.withValues(alpha: 0.08),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.primary.withOpacity(0.15)),
+        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.15)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,7 +261,7 @@ class ESP32StatusCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.primary.withOpacity(0.1),
+                  color: AppTheme.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(Icons.memory, color: AppTheme.primary, size: 20),
@@ -349,12 +349,12 @@ class FirebaseStatusCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.tertiary.withOpacity(0.05),
-            AppTheme.tertiaryContainer.withOpacity(0.08),
+            AppTheme.tertiary.withValues(alpha: 0.05),
+            AppTheme.tertiaryContainer.withValues(alpha: 0.08),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.tertiary.withOpacity(0.15)),
+        border: Border.all(color: AppTheme.tertiary.withValues(alpha: 0.15)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,7 +364,7 @@ class FirebaseStatusCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTheme.tertiary.withOpacity(0.1),
+                  color: AppTheme.tertiary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(Icons.cloud_sync, color: AppTheme.tertiary, size: 20),
@@ -445,7 +445,7 @@ class BiodigesterVisual extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
           colors: [
-            AppTheme.primary.withOpacity(0.85),
+            AppTheme.primary.withValues(alpha: 0.85),
             AppTheme.primaryContainer,
           ],
           begin: Alignment.topLeft,
@@ -467,9 +467,9 @@ class BiodigesterVisual extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
+                color: Colors.white.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(9999),
-                border: Border.all(color: Colors.white.withOpacity(0.2)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -488,7 +488,7 @@ class BiodigesterVisual extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -522,7 +522,7 @@ class BiodigesterVisual extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
@@ -553,10 +553,10 @@ class _BiodigesterIllustrationPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final whitePaint = Paint()
-      ..color = Colors.white.withOpacity(0.12)
+      ..color = Colors.white.withValues(alpha: 0.12)
       ..style = PaintingStyle.fill;
     final strokePaint = Paint()
-      ..color = Colors.white.withOpacity(0.2)
+      ..color = Colors.white.withValues(alpha: 0.2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
@@ -580,7 +580,7 @@ class _BiodigesterIllustrationPainter extends CustomPainter {
 
     // Slurry level inside tank
     final slurryPaint = Paint()
-      ..color = Colors.white.withOpacity(0.08)
+      ..color = Colors.white.withValues(alpha: 0.08)
       ..style = PaintingStyle.fill;
     final slurryLevel = size.height * 0.55;
     final slurryRect = RRect.fromRectAndRadius(
@@ -591,7 +591,7 @@ class _BiodigesterIllustrationPainter extends CustomPainter {
 
     // Gas pipeline (right side)
     final pipePaint = Paint()
-      ..color = Colors.white.withOpacity(0.25)
+      ..color = Colors.white.withValues(alpha: 0.25)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
@@ -623,7 +623,7 @@ class _BiodigesterIllustrationPainter extends CustomPainter {
     canvas.drawPath(outputPath, pipePaint);
 
     // Sensor dots on the tank
-    final sensorPaint = Paint()..color = Colors.white.withOpacity(0.6);
+    final sensorPaint = Paint()..color = Colors.white.withValues(alpha: 0.6);
     canvas.drawCircle(Offset(size.width * 0.35, size.height * 0.35), 3, sensorPaint);
     canvas.drawCircle(Offset(size.width * 0.42, size.height * 0.55), 3, sensorPaint);
     canvas.drawCircle(Offset(size.width * 0.48, size.height * 0.70), 3, sensorPaint);
@@ -646,7 +646,7 @@ class _BiodigesterIllustrationPainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: 'DIGESTER',
-        style: TextStyle(fontSize: 8, color: Colors.white.withOpacity(0.5), fontWeight: FontWeight.w600, letterSpacing: 1),
+        style: TextStyle(fontSize: 8, color: Colors.white.withValues(alpha: 0.5), fontWeight: FontWeight.w600, letterSpacing: 1),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -655,7 +655,7 @@ class _BiodigesterIllustrationPainter extends CustomPainter {
     final gasLabel = TextPainter(
       text: TextSpan(
         text: 'GAS',
-        style: TextStyle(fontSize: 8, color: Colors.white.withOpacity(0.5), fontWeight: FontWeight.w600, letterSpacing: 1),
+        style: TextStyle(fontSize: 8, color: Colors.white.withValues(alpha: 0.5), fontWeight: FontWeight.w600, letterSpacing: 1),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -688,7 +688,7 @@ class BiogasProductionCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: AppTheme.onPrimaryContainer.withOpacity(0.8),
+              color: AppTheme.onPrimaryContainer.withValues(alpha: 0.8),
               letterSpacing: 1,
             ),
           ),
@@ -735,7 +735,7 @@ class BiogasProductionCard extends StatelessWidget {
                 '8% increase from last week · Efficiency ${bio.efficiency}%',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppTheme.onPrimaryContainer.withOpacity(0.9),
+                  color: AppTheme.onPrimaryContainer.withValues(alpha: 0.9),
                 ),
               ),
             ],
@@ -749,7 +749,7 @@ class BiogasProductionCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 10, color: AppTheme.onPrimaryContainer.withOpacity(0.7), letterSpacing: 0.5)),
+        Text(label, style: TextStyle(fontSize: 10, color: AppTheme.onPrimaryContainer.withValues(alpha: 0.7), letterSpacing: 0.5)),
         Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.onPrimaryContainer)),
       ],
     );
@@ -769,7 +769,7 @@ class EnergyImpactCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.3)),
+        border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -806,7 +806,7 @@ class EnergyImpactCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.outlineVariant.withOpacity(0.2)),
+          border: Border.all(color: AppTheme.outlineVariant.withValues(alpha: 0.2)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

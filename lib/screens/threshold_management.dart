@@ -47,7 +47,7 @@ class _ThresholdManagementState extends State<ThresholdManagement> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(9999),
                     ),
                     child: const Text(
@@ -63,7 +63,7 @@ class _ThresholdManagementState extends State<ThresholdManagement> {
                   const SizedBox(height: 4),
                   Text(
                     'Set safe operating ranges for the biodigester system',
-                    style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.8)),
+                    style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.8)),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -137,9 +137,9 @@ class _ThresholdManagementState extends State<ThresholdManagement> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: Colors.white.withOpacity(0.8), size: 16),
+        Icon(icon, color: Colors.white.withValues(alpha: 0.8), size: 16),
         const SizedBox(width: 4),
-        Text(label, style: TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.9), fontWeight: FontWeight.w500)),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.9), fontWeight: FontWeight.w500)),
       ],
     );
   }
@@ -164,7 +164,7 @@ class _ThresholdManagementState extends State<ThresholdManagement> {
         ),
         boxShadow: [
           BoxShadow(
-            color: threshold.color.withOpacity(0.05),
+            color: threshold.color.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -179,7 +179,7 @@ class _ThresholdManagementState extends State<ThresholdManagement> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: threshold.color.withOpacity(0.1),
+                  color: threshold.color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(threshold.icon, color: threshold.color, size: 20),
