@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+
+import 'firebase_options.dart';
+
 import 'theme/app_theme.dart';
 import 'routes.dart';
+
 import 'services/auth_service.dart';
 import 'services/sensor_service.dart';
 import 'services/alert_service.dart';
@@ -16,38 +20,48 @@ import 'services/providers.dart';
 
 bool firebaseReady = false;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase (try, but allow app to run without it for demo)
+  // Firebase initialization
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     firebaseReady = true;
+    debugPrint('Firebase initialized successfully');
   } catch (e) {
-    debugPrint('Firebase not configured — running in demo mode');
     firebaseReady = false;
+    debugPrint('Firebase initialization error: $e');
   }
 
-  // Initialize Hive cache
+  // Cache initialization
   final cacheService = CacheService();
   try {
     await cacheService.initialize();
   } catch (e) {
-    debugPrint('Cache init skipped: $e');
+    debugPrint('Cache initialization error: $e');
   }
 
-  // Initialize notification service
+  // Notification initialization
   final notificationService = NotificationService();
   try {
-    if (firebaseReady) await notificationService.initialize();
+    if (firebaseReady) {
+      await notificationService.initialize();
+    }
   } catch (e) {
-    debugPrint('Notifications init skipped: $e');
+    debugPrint('Notification initialization error: $e');
   }
 
-  runApp(BioSmartApp(
-    cacheService: cacheService,
-    notificationService: notificationService,
-  ));
+  debugPrint('Firebase Ready = $firebaseReady');
+
+  runApp(
+    BioSmartApp(
+      cacheService: cacheService,
+      notificationService: notificationService,
+    ),
+  );
 }
 
 class BioSmartApp extends StatelessWidget {
@@ -62,7 +76,6 @@ class BioSmartApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Create service instances
     final authService = AuthService();
     final sensorService = SensorService();
     final alertService = AlertService();
@@ -73,7 +86,7 @@ class BioSmartApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        // Service singletons available via context
+        // Services
         Provider<AuthService>.value(value: authService),
         Provider<SensorService>.value(value: sensorService),
         Provider<AlertService>.value(value: alertService),
@@ -84,29 +97,39 @@ class BioSmartApp extends StatelessWidget {
         Provider<PdfService>.value(value: pdfService),
         Provider<CacheService>.value(value: cacheService),
 
-        // State providers
+        // State Providers
         ChangeNotifierProvider(
           create: (_) => AuthProvider(authService),
         ),
+
         ChangeNotifierProvider(
-          create: (_) => SensorProvider(sensorService, historyService, notificationService, cacheService),
+          create: (_) => SensorProvider(
+            sensorService,
+            historyService,
+            notificationService,
+            cacheService,
+          ),
         ),
+
         ChangeNotifierProvider(
           create: (_) => AlertProvider(alertService),
         ),
+
         ChangeNotifierProvider(
           create: (_) => AnomalyProvider(anomalyService),
         ),
+
         ChangeNotifierProvider(
           create: (_) => HistoryProvider(historyService),
         ),
+
         ChangeNotifierProvider(
           create: (_) => ConnectivityProvider()..startListening(),
         ),
       ],
       child: MaterialApp(
-        title: 'BioSmart — Monitoring Biodigesteur',
         debugShowCheckedModeBanner: false,
+        title: 'BioSmart Africa',
         theme: AppTheme.theme,
         initialRoute: AppRoutes.splash,
         routes: AppRoutes.routes,
